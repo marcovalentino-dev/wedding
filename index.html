@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matrimonio di Sofia & Luca</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="landing" id="landing" aria-label="Invito animato">
+      <div class="landing__content">
+        <p class="landing__subtitle">Siete invitati al nostro matrimonio</p>
+        <button class="envelope" id="openInvitation" aria-label="Apri invito">
+          <span class="envelope__flap"></span>
+          <span class="envelope__letter">
+            <strong>Invito</strong>
+            <small>Clicca per aprire</small>
+          </span>
+          <span class="envelope__seal">❤</span>
+        </button>
+      </div>
+    </div>
+
+    <main id="mainSite" class="site" aria-hidden="true">
+      <header class="hero section">
+        <nav class="nav container">
+          <a href="#" class="logo">Sofia & Luca</a>
+          <ul>
+            <li><a href="#storia">Storia</a></li>
+            <li><a href="#evento">Evento</a></li>
+            <li><a href="#programma">Programma</a></li>
+            <li><a href="#rsvp">RSVP</a></li>
+          </ul>
+        </nav>
+
+        <div class="container hero__content">
+          <p class="eyebrow">14 Giugno 2027 · Firenze</p>
+          <h1>Benvenuti al nostro giorno speciale</h1>
+          <p>
+            Non vediamo l'ora di condividere con voi una giornata di gioia, emozioni e
+            amore. Qui trovate tutte le informazioni utili per partecipare al matrimonio.
+          </p>
+          <a class="btn" href="#rsvp">Conferma la presenza</a>
+        </div>
+      </header>
+
+      <section class="section" id="storia">
+        <div class="container two-col">
+          <div>
+            <h2>La nostra storia</h2>
+            <p>
+              Ci siamo incontrati in una sera d'estate e da allora abbiamo condiviso
+              viaggi, sogni e tantissime risate. Il matrimonio è il nostro nuovo inizio,
+              e vogliamo viverlo insieme a chi ci vuole bene.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Date importanti</h3>
+            <ul>
+              <li>2019 · Primo incontro</li>
+              <li>2021 · Convivenza</li>
+              <li>2025 · Proposta di matrimonio</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt" id="evento">
+        <div class="container cards">
+          <article class="card">
+            <h3>Cerimonia</h3>
+            <p>Ore 11:00 · Chiesa di San Miniato al Monte, Firenze</p>
+          </article>
+          <article class="card">
+            <h3>Ricevimento</h3>
+            <p>Ore 13:30 · Villa Le Rose, colline fiorentine</p>
+          </article>
+          <article class="card">
+            <h3>Dress code</h3>
+            <p>Elegante, con tonalità pastello. Evitare il bianco.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="programma">
+        <div class="container">
+          <h2>Programma della giornata</h2>
+          <div class="timeline">
+            <div><strong>10:30</strong><span>Arrivo ospiti</span></div>
+            <div><strong>11:00</strong><span>Inizio cerimonia</span></div>
+            <div><strong>13:30</strong><span>Pranzo e brindisi</span></div>
+            <div><strong>16:30</strong><span>Taglio della torta</span></div>
+            <div><strong>18:00</strong><span>Musica e festa</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt" id="logistica">
+        <div class="container two-col">
+          <div class="card">
+            <h3>Come arrivare</h3>
+            <p>
+              Sono disponibili parcheggio gratuito e navetta dalla stazione di Firenze
+              Santa Maria Novella (partenze ogni 30 minuti).
+            </p>
+          </div>
+          <div class="card">
+            <h3>Dove dormire</h3>
+            <p>
+              Abbiamo riservato tariffe speciali in hotel convenzionati. Scriveteci per
+              ricevere la lista completa.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="regali">
+        <div class="container card card--center">
+          <h2>Lista nozze</h2>
+          <p>
+            Il regalo più bello è la vostra presenza. Per chi desidera contribuire al
+            nostro viaggio di nozze in Giappone, è disponibile una lista dedicata.
+          </p>
+          <p><strong>IBAN:</strong> IT00 X000 0000 0000 0000 000</p>
+        </div>
+      </section>
+
+      <section class="section section--alt" id="rsvp">
+        <div class="container">
+          <h2>Conferma la tua presenza</h2>
+          <form class="rsvp-form" action="#" method="post">
+            <label>
+              Nome e Cognome
+              <input type="text" name="nome" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" required />
+            </label>
+            <label>
+              Parteciperai?
+              <select name="presenza" required>
+                <option value="">Seleziona</option>
+                <option value="si">Sì, con piacere</option>
+                <option value="no">No, purtroppo</option>
+              </select>
+            </label>
+            <label>
+              Allergie o note
+              <textarea name="note" rows="4"></textarea>
+            </label>
+            <button class="btn" type="submit">Invia RSVP</button>
+          </form>
+        </div>
+      </section>
+
+      <footer class="section footer">
+        <div class="container">
+          <p>Grazie di cuore per far parte della nostra storia.</p>
+          <small>Contatti: sofiaeluca@email.it · +39 333 1234567</small>
+        </div>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
