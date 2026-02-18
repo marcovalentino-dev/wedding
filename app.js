@@ -2,7 +2,7 @@
   // IMPORTANTE: qui va la URL Web App di Apps Script (deve finire con /exec), non il link editor /home/projects
   appsScriptWebAppUrl: 'https://script.google.com/macros/s/AKfycbxwPQak8frck_htAfAhhgfczQRNRoWJrYhHI9de22UekGcdoU6u-9KeYtN1PTpBFxzJ5w/exec',
   spreadsheetId: '10PfsptLr7QvG5_QRFogONU6ZFzKaVeCHGUtX6PvucXc',
-  projectEditorUrl: 'https://script.google.com/macros/s/AKfycbxwPQak8frck_htAfAhhgfczQRNRoWJrYhHI9de22UekGcdoU6u-9KeYtN1PTpBFxzJ5w/exec'
+  projectEditorUrl: 'https://script.google.com/home/projects/1dcjiD1K4-EapaxgADNrk6fyKU9Y5Xd8DHsiNK3hSJBrTp-1hzfvBfyIC'
 };
 
 const SESSION_ID = crypto.randomUUID();
