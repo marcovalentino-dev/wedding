@@ -1,6 +1,6 @@
 ﻿const TRACKING_CONFIG = {
   // IMPORTANTE: qui va la URL Web App di Apps Script (deve finire con /exec), non il link editor /home/projects
-  appsScriptWebAppUrl: 'INCOLLA_QUI_LA_WEB_APP_URL_EXEC',
+  appsScriptWebAppUrl: 'https://script.google.com/macros/s/AKfycbxwPQak8frck_htAfAhhgfczQRNRoWJrYhHI9de22UekGcdoU6u-9KeYtN1PTpBFxzJ5w/exec',
   spreadsheetId: '10PfsptLr7QvG5_QRFogONU6ZFzKaVeCHGUtX6PvucXc',
   projectEditorUrl: 'https://script.google.com/macros/s/AKfycbxwPQak8frck_htAfAhhgfczQRNRoWJrYhHI9de22UekGcdoU6u-9KeYtN1PTpBFxzJ5w/exec'
 };
