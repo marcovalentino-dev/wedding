@@ -1,0 +1,104 @@
+﻿<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marco.exe - Hinge Interactive Prompt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <header class="hero">
+    <p class="badge">Prompt Hinge interattivo</p>
+    <h1>Ciao, sono <span>Marco</span> 😄</h1>
+    <p class="subtitle">Zero bio noiose: qui mi scopri giocando, cliccando e giudicandomi senza pietà.</p>
+    <button id="startJourney" class="btn btn-primary">Entra nel multiverso del mio profilo</button>
+  </header>
+
+  <main id="experience" class="hidden">
+    <section class="card intro-card reveal" id="about">
+      <h2>Mini presentazione</h2>
+      <p>Mi piace ridere, creare cose folli e trasformare un caffè in una storia. Se sei arrivata qui, hai già vinto punti bonus.</p>
+      <div class="facts">
+        <button class="chip log-click" data-tag="fact-food">🍕 Team pizza (sì, anche discussioni su ananas)</button>
+        <button class="chip log-click" data-tag="fact-dog">🐶 Saluto i cani per strada</button>
+        <button class="chip log-click" data-tag="fact-meme">😂 Meme researcher notturno</button>
+      </div>
+    </section>
+
+    <section class="card game reveal" id="greenRedGame">
+      <div class="game-header">
+        <h2>🚩 Green Flag o Red Flag?</h2>
+        <p>Metteresti swipe right su di me nella vita reale? Scopriamolo scientificamente 😌</p>
+      </div>
+
+      <div id="gameIntro" class="panel">
+        <button id="startGame" class="btn btn-primary">👉 Iniziamo il giudizio 😂</button>
+      </div>
+
+      <div id="gamePlay" class="panel hidden">
+        <div class="scoreboard">
+          <span>💚 Green: <strong id="greenCount">0</strong></span>
+          <span>🚩 Red: <strong id="redCount">0</strong></span>
+          <span>Card: <strong id="cardProgress">1/12</strong></span>
+        </div>
+        <article id="statementCard" class="statement"></article>
+        <div class="actions">
+          <button id="greenBtn" class="btn btn-green">💚 Green Flag</button>
+          <button id="redBtn" class="btn btn-red">🚩 Red Flag</button>
+        </div>
+      </div>
+
+      <div id="gameResult" class="panel hidden">
+        <h3 id="resultTitle"></h3>
+        <p id="resultText"></p>
+        <button id="replayGame" class="btn">Rigioca</button>
+      </div>
+    </section>
+
+    <section class="card game reveal" id="compatibilityGame">
+      <h2>🎯 Match Meter</h2>
+      <p>Scegli l'opzione che ti rappresenta di più. Vediamo quanto siamo un duo da commedia romantica.</p>
+      <div id="quizArea" class="panel">
+        <p id="quizQuestion"></p>
+        <div id="quizOptions" class="quiz-options"></div>
+      </div>
+      <div id="quizResult" class="panel hidden">
+        <h3 id="quizResultTitle"></h3>
+        <p id="quizResultText"></p>
+        <button id="restartQuiz" class="btn">Riprova quiz</button>
+      </div>
+    </section>
+
+    <section class="card reveal" id="aboutHer">
+      <h2>Adesso tocca a te ✨</h2>
+      <p>Raccontami qualcosa di te. Ti leggo davvero.</p>
+      <form id="aboutHerForm">
+        <label for="herMessage">La tua green flag personale:</label>
+        <textarea id="herMessage" required placeholder="Es: faccio playlist personalizzate, salvo gatti e rido alle battute brutte..."></textarea>
+
+        <label for="herFunFact">Una cosa random su di te:</label>
+        <input id="herFunFact" type="text" placeholder="Es: conosco tutte le battute di Shrek" />
+
+        <label for="herContact">Se vuoi, lasciami IG o numero:</label>
+        <input id="herContact" type="text" placeholder="Opzionale" />
+
+        <button class="btn btn-primary" type="submit">Invia messaggio segreto 💌</button>
+      </form>
+      <p id="formStatus"></p>
+    </section>
+  </main>
+
+  <template id="burstTemplate">
+    <span class="burst">✨</span>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
