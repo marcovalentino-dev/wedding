@@ -1,4 +1,4 @@
-﻿const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwPQak8frck_htAfAhhgfczQRNRoWJrYhHI9de22UekGcdoU6u-9KeYtN1PTpBFxzJ5w/exec';
+﻿const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwPQak8frck_htAfAhhgfczQRNRoWJrYhHI9de22UekGcdoU6u-9KeYtN1PTpBFxzJ5w';
 const SESSION_ID = crypto.randomUUID();
 
 const greenRedStatements = [
@@ -317,4 +317,5 @@ window.addEventListener('load', () => {
   resetGreenRedGame();
   resetQuiz();
 });
+
 
