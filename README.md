@@ -3,20 +3,20 @@
 ## File
 - `index.html`: layout completo (presentazione + 2 minigiochi + form)
 - `styles.css`: grafica colorata, animazioni, responsive
-- `app.js`: logica giochi/interazioni + tracking eventi
+- `app.js`: logica giochi/interazioni + tracking eventi (queue + batch + retry)
 - `google-apps-script/Code.gs`: endpoint serverless per log su Google Sheets
 
-## Setup rapido log su Google
-1. Crea un Google Sheet nuovo (es: `Hinge Logs`).
-2. Copia l'ID del foglio dall'URL.
-3. Apri https://script.google.com e crea un progetto Apps Script.
-4. Incolla il contenuto di `google-apps-script/Code.gs`.
-5. Sostituisci `INCOLLA_SPREADSHEET_ID` con l'ID del tuo sheet.
-6. Deploy -> New deployment -> Web app.
-7. Execute as: `Me`.
-8. Who has access: `Anyone`.
-9. Copia la Web App URL.
-10. In `app.js`, sostituisci `INCOLLA_QUI_LA_TUA_WEB_APP_URL` con quella URL.
+## Config attuale
+- Spreadsheet collegato: `10PfsptLr7QvG5_QRFogONU6ZFzKaVeCHGUtX6PvucXc`
+- Editor progetto Apps Script: `https://script.google.com/home/projects/1dcjiD1K4-EapaxgADNrk6fyKU9Y5Xd8DHsiNK3hSJBrTp-1hzfvBfyIC`
+
+## Cosa manca per attivare i log online
+1. Apri il progetto Apps Script e incolla il contenuto aggiornato di `google-apps-script/Code.gs`.
+2. Deploy -> New deployment -> Web app.
+3. Execute as: `Me`.
+4. Who has access: `Anyone`.
+5. Copia la URL della Web App che finisce con `/exec`.
+6. In `app.js`, imposta `TRACKING_CONFIG.appsScriptWebAppUrl` con quella URL.
 
 ## Eventi tracciati
 - `page_loaded`
@@ -29,6 +29,7 @@
 - `compatibility_completed`
 - `about_her_submitted`
 
-## Note
-- Se la URL Apps Script non e configurata, i log restano comunque in `localStorage` (`hingeLogs`) come backup.
-- Il sito e statico: puoi pubblicarlo su Netlify, Vercel, GitHub Pages o hostarlo ovunque.
+## Note tecniche tracking
+- I log vengono messi in coda locale (`localStorage`, chiave `hingeLogsQueue`).
+- Invio in batch verso Apps Script a ogni evento + tentativo su `beforeunload` con `sendBeacon`.
+- Se endpoint non configurato, i log restano in coda locale finche non inserisci la URL `/exec`.

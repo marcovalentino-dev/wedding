@@ -1,5 +1,13 @@
-﻿const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwPQak8frck_htAfAhhgfczQRNRoWJrYhHI9de22UekGcdoU6u-9KeYtN1PTpBFxzJ5w';
+﻿const TRACKING_CONFIG = {
+  // IMPORTANTE: qui va la URL Web App di Apps Script (deve finire con /exec), non il link editor /home/projects
+  appsScriptWebAppUrl: 'INCOLLA_QUI_LA_WEB_APP_URL_EXEC',
+  spreadsheetId: '10PfsptLr7QvG5_QRFogONU6ZFzKaVeCHGUtX6PvucXc',
+  projectEditorUrl: 'https://script.google.com/macros/s/AKfycbxwPQak8frck_htAfAhhgfczQRNRoWJrYhHI9de22UekGcdoU6u-9KeYtN1PTpBFxzJ5w/exec'
+};
+
 const SESSION_ID = crypto.randomUUID();
+const VISITOR_ID_KEY = 'hingeVisitorId';
+const LOG_STORAGE_KEY = 'hingeLogsQueue';
 
 const greenRedStatements = [
   'Ti porto il caffè a letto ☕',
@@ -84,38 +92,109 @@ function stamp() {
   return new Date().toISOString();
 }
 
+function getVisitorId() {
+  let existing = '';
+  try {
+    existing = localStorage.getItem(VISITOR_ID_KEY) || '';
+  } catch (_) {
+    existing = '';
+  }
+
+  if (existing) return existing;
+
+  const created = crypto.randomUUID();
+  try {
+    localStorage.setItem(VISITOR_ID_KEY, created);
+  } catch (_) {
+    // Non-blocking if storage is unavailable.
+  }
+  return created;
+}
+
+const VISITOR_ID = getVisitorId();
+
+function isWebAppUrlConfigured() {
+  return Boolean(
+    TRACKING_CONFIG.appsScriptWebAppUrl &&
+    TRACKING_CONFIG.appsScriptWebAppUrl.includes('/exec')
+  );
+}
+
+function readQueue() {
+  try {
+    return JSON.parse(localStorage.getItem(LOG_STORAGE_KEY) || '[]');
+  } catch (_) {
+    return [];
+  }
+}
+
+function writeQueue(queue) {
+  try {
+    localStorage.setItem(LOG_STORAGE_KEY, JSON.stringify(queue));
+  } catch (_) {
+    // Non-blocking in private mode.
+  }
+}
+
+function enqueueLog(event) {
+  const queue = readQueue();
+  queue.push(event);
+  writeQueue(queue);
+}
+
+async function flushLogs() {
+  if (!isWebAppUrlConfigured()) return;
+
+  const queue = readQueue();
+  if (!queue.length) return;
+
+  try {
+    await fetch(TRACKING_CONFIG.appsScriptWebAppUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        mode: 'batch',
+        events: queue
+      })
+    });
+
+    writeQueue([]);
+  } catch (_) {
+    // Keep queue for next retry.
+  }
+}
+
 async function logEvent(type, payload = {}) {
   const event = {
+    eventId: crypto.randomUUID(),
     sessionId: SESSION_ID,
+    visitorId: VISITOR_ID,
     timestamp: stamp(),
     type,
     payload,
     url: window.location.href,
-    userAgent: navigator.userAgent
+    userAgent: navigator.userAgent,
+    spreadsheetIdHint: TRACKING_CONFIG.spreadsheetId
   };
 
-  try {
-    const cached = JSON.parse(localStorage.getItem('hingeLogs') || '[]');
-    cached.push(event);
-    localStorage.setItem('hingeLogs', JSON.stringify(cached));
-  } catch (_) {
-    // localStorage can fail in private mode; non-blocking.
-  }
+  enqueueLog(event);
+  await flushLogs();
+}
 
-  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('INCOLLA_QUI')) {
-    return;
-  }
+function flushWithBeacon() {
+  if (!isWebAppUrlConfigured()) return;
 
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(event)
-    });
-  } catch (_) {
-    // Keep UX smooth if logging endpoint is temporarily unavailable.
-  }
+  const queue = readQueue();
+  if (!queue.length || !navigator.sendBeacon) return;
+
+  const blob = new Blob(
+    [JSON.stringify({ mode: 'batch', events: queue, source: 'beacon' })],
+    { type: 'text/plain;charset=utf-8' }
+  );
+
+  const ok = navigator.sendBeacon(TRACKING_CONFIG.appsScriptWebAppUrl, blob);
+  if (ok) writeQueue([]);
 }
 
 function showBurst(x, y) {
@@ -308,14 +387,29 @@ el.aboutHerForm.addEventListener('submit', async (ev) => {
   }
 
   await logEvent('about_her_submitted', data);
-  el.formStatus.textContent = 'Messaggio inviato ✅ (se log remoto attivo, arriva anche sul tuo Google Sheet)';
+  el.formStatus.textContent = 'Messaggio inviato ✅';
   el.aboutHerForm.reset();
 });
 
-window.addEventListener('load', () => {
-  logEvent('page_loaded');
-  resetGreenRedGame();
-  resetQuiz();
+window.addEventListener('beforeunload', flushWithBeacon);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') flushWithBeacon();
 });
 
+window.addEventListener('load', () => {
+  if (!isWebAppUrlConfigured()) {
+    console.warn('Tracking remoto disattivato: imposta TRACKING_CONFIG.appsScriptWebAppUrl con la URL /exec della Web App.');
+  }
 
+  logEvent('page_loaded', {
+    projectEditorUrl: TRACKING_CONFIG.projectEditorUrl,
+    spreadsheetId: TRACKING_CONFIG.spreadsheetId
+  });
+
+  resetGreenRedGame();
+  resetQuiz();
+
+  setTimeout(() => {
+    flushLogs();
+  }, 1200);
+});
